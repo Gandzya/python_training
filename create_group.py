@@ -11,6 +11,19 @@ def logout(wd):
     wd.find_element_by_link_text("Logout").click()
 
 
+def login(wd, username, password):
+    wd.find_element_by_name("user").click()
+    wd.find_element_by_name("user").clear()
+    wd.find_element_by_name("user").send_keys(username)
+    wd.find_element_by_name("pass").clear()
+    wd.find_element_by_name("pass").send_keys(password)
+    wd.find_element_by_id("LoginForm").submit()
+
+
+def open_home_page(wd):
+    wd.get("http://localhost/addressbook/")
+
+
 def is_alert_present(self):
     try:
         self.wd.switch_to_alert()
@@ -40,17 +53,6 @@ class CreateGroup(unittest.TestCase):
     def open_group_page(self, wd):
         wd.find_element_by_link_text("add new").click()
         wd.find_element_by_link_text("groups").click()
-
-    def login(self, wd, username, password):
-        wd.find_element_by_name("user").click()
-        wd.find_element_by_name("user").clear()
-        wd.find_element_by_name("user").send_keys(username)
-        wd.find_element_by_name("pass").clear()
-        wd.find_element_by_name("pass").send_keys(password)
-        wd.find_element_by_id("LoginForm").submit()
-
-    def open_home_page(self, wd):
-        wd.get("http://localhost/addressbook/")
 
     def test_create_group(self):
         wd = self.wd;
