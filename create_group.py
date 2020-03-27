@@ -2,11 +2,21 @@
 from selenium import webdriver
 import unittest
 
+from selenium.common.exceptions import NoAlertPresentException
+
 from group import Group
 
 
 def logout(wd):
     wd.find_element_by_link_text("Logout").click()
+
+
+def is_alert_present(self):
+    try:
+        self.wd.switch_to_alert()
+    except NoAlertPresentException as e:
+        return False
+    return True
 
 
 class CreateGroup(unittest.TestCase):
@@ -19,9 +29,9 @@ class CreateGroup(unittest.TestCase):
         wd.find_element_by_name("group_name").click()
         wd.find_element_by_name("group_name").clear()
         wd.find_element_by_name("group_name").send_keys(group.name)
-        wd.find_element_by_name("header_name").click()
-        wd.find_element_by_name("header_name").clear()
-        wd.find_element_by_name("header_name").send_keys(group.header)
+        wd.find_element_by_name("group_header").click()
+        wd.find_element_by_name("group_header").clear()
+        wd.find_element_by_name("group_header").send_keys(group.header)
         wd.find_element_by_name("group_footer").click()
         wd.find_element_by_name("group_footer").clear()
         wd.find_element_by_name("group_footer").send_keys(group.footer)
