@@ -20,3 +20,8 @@ class GroupHelper:
         wd = self.app.wd
         wd.find_element_by_link_text("add new").click()
         wd.find_element_by_link_text("groups").click()
+
+    def delete_first_group(self):
+        wd = self.app.wd
+        wd.find_element_by_name("selected[]").click()
+        wd.find_element_by_name("delete").click()
