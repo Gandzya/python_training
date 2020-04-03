@@ -8,6 +8,22 @@ class ContactHelper:
     def create_new_contact(self, contact):
         wd = self.app.wd
         wd.find_element_by_link_text("add new").click()
+        self.fill_contact(contact)
+        wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
+
+    def delete_first_contact(self):
+        wd = self.app.wd
+        wd.find_element_by_name("selected[]").click()
+        wd.find_element_by_xpath("//input[@value=\"Delete\"]").click()
+        wd.switch_to_alert().accept()
+
+    def update_first_contact(self, contact):
+        wd = self.app.wd
+        wd.find_element_by_xpath("//img[@title=\"Edit\"]").click()
+        self.fill_contact(contact)
+
+    def fill_contact(self, contact):
+        wd = self.app.wd
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
         wd.find_element_by_name("firstname").send_keys(contact.firstname)
@@ -28,4 +44,3 @@ class ContactHelper:
         wd.find_element_by_name("bmonth").click()
         wd.find_element_by_name("byear").clear()
         wd.find_element_by_name("byear").send_keys(contact.byear)
-        wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
