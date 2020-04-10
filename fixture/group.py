@@ -10,7 +10,8 @@ class GroupHelper:
 
     def open_group_page(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("groups").click()
+        if not (len(wd.find_elements_by_name("edit")) > 0 and wd.current_url.endswith("groups.php")):
+            wd.find_element_by_link_text("groups").click()
 
     def delete_first_group(self):
         wd = self.app.wd
