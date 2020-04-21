@@ -36,10 +36,21 @@ class ContactHelper:
 
     def update_contact_by_index(self, contact, index):
         wd = self.app.wd
-        self.open_home_page()
-        wd.find_elements_by_xpath("//img[@title=\"Edit\"]")[index].click()
+        self.open_contact_by_index(index)
         self.fill_contact(contact)
         self.contact_cache = None
+
+    def open_contact_by_index(self, index):
+        wd = self.app.wd
+        self.open_home_page()
+        wd.find_elements_by_xpath("//img[@title='Edit']")[index].click()
+
+    def open_contact_view_by_index(self, index):
+        wd = self.app.wd
+        self.open_home_page()
+        row = wd.find_elements_by_name("entry")[index]
+        cell = row.find_elements_by_tag_name("td")[7]
+        cell.find_element_by_tag_name("a").click()
 
     def fill_contact(self, contact):
         wd = self.app.wd
@@ -83,9 +94,11 @@ class ContactHelper:
             i = 2
             element_list = wd.find_elements_by_name("entry")
             for element in element_list:
+                cells = element.find_element_by_tag_name("td")
                 id = element.find_element_by_name("selected[]").get_attribute("value")
-                lastname = element.find_element_by_xpath("//tr[" + str(i) + "]/td[2]").text
-                firstname = element.find_element_by_xpath("//tr[" + str(i) + "]/td[3]").text
+                lastname = cells[1].text  # element.find_element_by_xpath("//tr[" + str(i) + "]/td[2]").text
+                firstname = cells[2].text  # element.find_element_by_xpath("//tr[" + str(i) + "]/td[3]").text
                 i = i + 1
                 self.contact_cache.append(Contact(lastname=lastname, firstname=firstname, id=id))
         return list(self.contact_cache)
+
