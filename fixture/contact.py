@@ -107,6 +107,8 @@ class ContactHelper:
                 address = cells[3].text
                 allphones = cells[5].text
                 allmails = cells[4].text
+                if allmails == '':
+                    allmails = None
                 self.contact_cache.append(
                     Contact(lastname=lastname, firstname=firstname, id=id, all_phones_from_home_page=allphones,
                             allmails=allmails, address=address))

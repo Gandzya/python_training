@@ -16,7 +16,7 @@ except getopt.GetoptError as err:
     sys.exit(2)
 
 n = 5
-f = "data/groups.json"
+f = "data/contact.json"
 
 for o, a in opts:
     if o == '-n':
@@ -34,9 +34,6 @@ def random_phone(maxlen):
     symbols = string.digits + ")" + "(" + "+" + "-" + " " * 3
     return "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
 
-
-n = 5
-f = "data/contacts.json"
 
 testdata = [
     Contact(firstname=random_string("firstname:", 10), middlename=random_string("middlename:", 10),
