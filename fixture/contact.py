@@ -32,6 +32,14 @@ class ContactHelper:
         wd.switch_to_alert().accept()
         self.contact_cache = None
 
+    def delete_contact_by_id(self, id):
+        wd = self.app.wd
+        self.open_home_page()
+        wd.find_element_by_id(id).click()
+        wd.find_element_by_xpath("//input[@value=\"Delete\"]").click()
+        wd.switch_to_alert().accept()
+        self.contact_cache = None
+
     def update_first_contact(self, contact, index):
         self.update_contact_by_index(contact, index)
 
@@ -39,12 +47,25 @@ class ContactHelper:
         wd = self.app.wd
         self.open_contact_by_index(index)
         self.fill_contact(contact)
+        wd.find_element_by_xpath("//input[@value='Update']").click()
+        self.contact_cache = None
+
+    def update_contact_by_id(self, contact):
+        wd = self.app.wd
+        self.open_contact_by_id(contact.id)
+        self.fill_contact(contact)
+        wd.find_element_by_xpath("//input[@value='Update']").click()
         self.contact_cache = None
 
     def open_contact_by_index(self, index):
         wd = self.app.wd
         self.open_home_page()
         wd.find_elements_by_xpath("//img[@title='Edit']")[index].click()
+
+    def open_contact_by_id(self, id):
+        wd = self.app.wd
+        self.open_home_page()
+        wd.find_element_by_xpath("//input[@id=%s]//ancestor::tr//img[@title='Edit']" % id).click()
 
     def open_contact_view_by_index(self, index):
         wd = self.app.wd
