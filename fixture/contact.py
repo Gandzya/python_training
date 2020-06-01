@@ -21,6 +21,23 @@ class ContactHelper:
         wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
         self.contact_cache = None
 
+    def create_new_contact_with_group(self, contact, group):
+        wd = self.app.wd
+        self.open_home_page()
+        wd.find_element_by_link_text("add new").click()
+        self.fill_contact(contact)
+        wd.find_element_by_name("new_group").click()
+        wd.find_element_by_xpath("//option[@value=%s]" % group.id).click()
+        wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
+        self.contact_cache = None
+
+    def add_to_group(self, contact, group):
+        wd = self.app.wd
+        self.open_home_page()
+        wd.find_element_by_id(contact.id).click()
+        wd.find_element_by_xpath("//select[@name='to_group']//option[@value=%s]" % group.id).click()
+        wd.find_element_by_xpath("//input[@name='add']").click()
+
     def delete_first_contact(self, index):
         self.delete_contact_by_index(index)
 
@@ -162,3 +179,10 @@ class ContactHelper:
         workphone = re.search(" W: (.*)", text).group(1)
         secondaryphone = re.search("P: (.*)", text).group(1)
         return Contact(homephone=homephone, mobilephone=mobilephone, workphone=workphone, secondaryphone=secondaryphone)
+
+    def delete_from_group(self, group, contact):
+        wd = self.app.wd
+        self.open_home_page()
+        wd.find_element_by_xpath("//select[@name='group']//option[@value=%s]" % group.id).click()
+        wd.find_element_by_xpath("//input[@id=%s]" % contact.id).click()
+        wd.find_element_by_name("remove").click()
